@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => { // Added an event listener "DOMContentLoaded" to run the code only after the DOM has fully loaded
 
+// ------  Declare Section    ---------------------------------------------------------------------------------------------------
+
     let playerText = document.getElementById('turn'); // Declaring a variable named playerText and using getElementById to find the HTML element with the ID 'turn'.
     let restartBtn = document.getElementById('button-play-again'); // Declaring a variable named restartBtn and using getElementById to find the HTML element with the ID 'button-play-again'.
     let squares = Array.from(document.getElementsByClassName('game-square')); // Declaring a variable named squares and using getElementsByClassName to find all HTML elements with the class 'game-square', then converting the collection into an array.
@@ -9,17 +11,19 @@ document.addEventListener('DOMContentLoaded', () => { // Added an event listener
     let currentPlayer = X_TEXT; // Declaring a variable named currentPlayer and setting its initial value to X_TEXT, indicating the game starts with player "X".
     let spaces = Array(9).fill(null); // Declaring a variable named spaces and creating an array of 9 null values to track the state of each square on the game board.
     let count_plays = 0 // Declaring a variable named count_plays to track the number of plays
-    
+
+// ------  Session Storage Section    ---------------------------------------------------------------------------------------------------
 
      // Initialize win counts from sessionStorage or set to 0 if not found
-     let xWins = sessionStorage.getItem('xWins') ? parseInt(sessionStorage.getItem('xWins')) : 0; // Loads 'xWins' from sessionStorage if it exists, otherwise set to 0
-     let oWins = sessionStorage.getItem('oWins') ? parseInt(sessionStorage.getItem('oWins')) : 0; // Loads 'oWins' from sessionStorage if it exists, otherwise set to 0
+    let xWins = sessionStorage.getItem('xWins') ? parseInt(sessionStorage.getItem('xWins')) : 0; // Loads 'xWins' from sessionStorage if it exists, otherwise set to 0
+    let oWins = sessionStorage.getItem('oWins') ? parseInt(sessionStorage.getItem('oWins')) : 0; // Loads 'oWins' from sessionStorage if it exists, otherwise set to 0
  
-     // Display current win counts
-     document.getElementById('scoreboard-x').innerText = xWins; // Using getElementById to get 'scoreboard-x' and set its inner text to xWins
-     document.getElementById('scoreboard-o').innerText = oWins; // Using getElementById to get 'scoreboard-o' and set its inner text to xWins
+    // Display current win counts
+    document.getElementById('scoreboard-x').innerText = xWins; // Using getElementById to get 'scoreboard-x' and set its inner text to xWins
+    document.getElementById('scoreboard-o').innerText = oWins; // Using getElementById to get 'scoreboard-o' and set its inner text to xWins
 
-     console.log(sessionStorage)
+// ------  Main Section    ---------------------------------------------------------------------------------------------------
+
     playerText.innerText = `It's ${currentPlayer}'s turn`; // Display whose turn it is at the start of the game
 
     const startGame = () => { // Function to initialize the game by adding click event listeners to each game square
@@ -77,6 +81,9 @@ document.addEventListener('DOMContentLoaded', () => { // Added an event listener
         return false; // Return false if no winning combination is found
     }
 
+// ------  Winning Combination Section    ---------------------------------------------------------------------------------------------------
+
+
        const winningCombinations = [ // Array of possible winning combinations
         [0, 1, 2], // Top row
         [3, 4, 5], // Middle row
@@ -87,6 +94,8 @@ document.addEventListener('DOMContentLoaded', () => { // Added an event listener
         [0, 4, 8], // Diagonal from top-left to bottom-right
         [2, 4, 6]  // Diagonal from top-right to bottom-left
     ];
+
+// ------  Restart Section    ---------------------------------------------------------------------------------------------------
 
     restartBtn.addEventListener('click', restart) // Added a 'click' event listener to the restart button to reset the game when clicked
 
@@ -103,6 +112,8 @@ document.addEventListener('DOMContentLoaded', () => { // Added an event listener
         count_plays = 0; // Resets the play count
         playerText.innerText = `It's ${currentPlayer}'s turn`; // Resets the turn message
     }
+
+// ------  Starts Game    ---------------------------------------------------------------------------------------------------
 
     startGame() // Calls the startGame function to start the game
 });
