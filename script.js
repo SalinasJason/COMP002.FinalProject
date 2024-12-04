@@ -9,7 +9,17 @@ document.addEventListener('DOMContentLoaded', () => { // Added an event listener
     let currentPlayer = X_TEXT; // Declaring a variable named currentPlayer and setting its initial value to X_TEXT, indicating the game starts with player "X".
     let spaces = Array(9).fill(null); // Declaring a variable named spaces and creating an array of 9 null values to track the state of each square on the game board.
     let count_plays = 0 // Declaring a variable named count_plays to track the number of plays
+    
 
+     // Initialize win counts from sessionStorage or set to 0 if not found
+     let xWins = sessionStorage.getItem('xWins') ? parseInt(sessionStorage.getItem('xWins')) : 0; // Loads 'xWins' from sessionStorage if it exists, otherwise set to 0
+     let oWins = sessionStorage.getItem('oWins') ? parseInt(sessionStorage.getItem('oWins')) : 0; // Loads 'oWins' from sessionStorage if it exists, otherwise set to 0
+ 
+     // Display current win counts
+     document.getElementById('scoreboard-x').innerText = xWins; // Using getElementById to get 'scoreboard-x' and set its inner text to xWins
+     document.getElementById('scoreboard-o').innerText = oWins; // Using getElementById to get 'scoreboard-o' and set its inner text to xWins
+
+     console.log(sessionStorage)
     playerText.innerText = `It's ${currentPlayer}'s turn`; // Display whose turn it is at the start of the game
 
     const startGame = () => { // Function to initialize the game by adding click event listeners to each game square
@@ -29,6 +39,17 @@ document.addEventListener('DOMContentLoaded', () => { // Added an event listener
                 count_plays = 10 // Prevents further plays if player has won three in the row by making count_plays to 10 plays
                 winning_blocks.forEach(index => squares[index].style.backgroundColor = 'lightgreen'); // Highlights the winning squares with a light green background color
 
+                if (currentPlayer === X_TEXT) {
+                    xWins++; // Increment the win count for player X
+                    document.getElementById('scoreboard-x').innerText = xWins; // Updates the scores for X-wins
+                    sessionStorage.setItem('xWins', xWins); // Saves the updated score to sessionStorage
+
+                } else {
+                    oWins++; // Increment the win count for player O
+                    document.getElementById('scoreboard-o').innerText = oWins; // Updates the display for O-wins
+                    sessionStorage.setItem('oWins', oWins); // Saves the updated score to sessionStorage
+                }
+                
                 console.log(winning_blocks); // Console logs the winning squares
             } 
             
