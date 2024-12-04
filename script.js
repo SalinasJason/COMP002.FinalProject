@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => { // Added an event listener
     const X_TEXT = "X"; // Declaring a variable named X_TEXT and assigning it the value "X", representing the other player's symbol.
     let currentPlayer = X_TEXT; // Declaring a variable named currentPlayer and setting its initial value to X_TEXT, indicating the game starts with player "X".
     let spaces = Array(9).fill(null); // Declaring a variable named spaces and creating an array of 9 null values to track the state of each square on the game board.
+    let count_plays = 0 // Declaring a variable named count_plays to track the number of plays
 
     const startGame = () => { // Function to initialize the game by adding click event listeners to each game square
         squares.forEach(square => square.addEventListener('click', squareClicked)) // Add a click event listener to each game square
@@ -16,18 +17,24 @@ document.addEventListener('DOMContentLoaded', () => { // Added an event listener
     function squareClicked(e) { // Function to handle the click event on game squares
         const id = e.target.id.split('-')[1]; // Declaring a variable named 'id' and assigning it the ID of the clicked square
 
-        if(!spaces[id]){ // Checks if the square is null/empty and if it is, execute the following code
+        if(!spaces[id] && count_plays < 9){ // Checks if the square is null/empty and if the count plays is more than 9, execute the following code
             spaces[id] = currentPlayer  // Fills the square with the current player's symbol
             e.target.innerText = currentPlayer // Adds the current player's symbol to the square 
 
             if (playerHasWon() !== false) { // Checks if the current player has won by verifying if the playerHasWon() function does not return false. 
                 playerText.innerText = `${currentPlayer} has won!`; // Displays the winning current player symbol with the text has won!
                 let winning_blocks = playerHasWon(); // Gets the winning squares
+                count_plays = 10 // Prevents further plays if player has won three in the row by making count_plays to 10 plays
+                winning_blocks.forEach(index => squares[index].style.backgroundColor = 'lightgreen'); // Highlights the winning squares with a light green background color
 
                 console.log(winning_blocks); // Console logs the winning squares
             }
-
+            count_plays++ // Every time a player clicks on a square it increments by 1
             currentPlayer = currentPlayer == X_TEXT ? O_TEXT : X_TEXT // Switches players turn, if currentPlayer is equal to X_TEXT change it to O_TEXT or else change it to X_TEXT.
+        }
+
+        if(count_plays === 9) { // Checks if count plays is equal to 9, execute the following code
+            playerText.innerHTML = 'Tied Game!' // Displays the text 'Tied Game'
         }
     }
 
