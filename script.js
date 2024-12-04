@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => { // Added an event listener
     const X_TEXT = "X"; // Declaring a variable named X_TEXT and assigning it the value "X", representing the other player's symbol.
     let currentPlayer = X_TEXT; // Declaring a variable named currentPlayer and setting its initial value to X_TEXT, indicating the game starts with player "X".
     let spaces = Array(9).fill(null); // Declaring a variable named spaces and creating an array of 9 null values to track the state of each square on the game board.
-    let count_plays = 0 // Declaring a variable named count_plays to track the number of plays
+    let count_plays = 0; // Declaring a variable named count_plays to track the number of plays
 
 // ------  Session Storage Section    ---------------------------------------------------------------------------------------------------
 
@@ -27,20 +27,20 @@ document.addEventListener('DOMContentLoaded', () => { // Added an event listener
     playerText.innerText = `It's ${currentPlayer}'s turn`; // Display whose turn it is at the start of the game
 
     const startGame = () => { // Function to initialize the game by adding click event listeners to each game square
-        squares.forEach(square => square.addEventListener('click', squareClicked)) // Add a click event listener to each game square
-    }
+        squares.forEach(square => square.addEventListener('click', squareClicked)); // Add a click event listener to each game square
+    };
 
     function squareClicked(e) { // Function to handle the click event on game squares
         const id = e.target.id.split('-')[1]; // Declaring a variable named 'id' and assigning it the ID of the clicked square
 
         if(!spaces[id] && count_plays < 9){ // Checks if the square is null/empty and if the count plays is more than 9, execute the following code
-            spaces[id] = currentPlayer  // Fills the square with the current player's symbol
-            e.target.innerText = currentPlayer // Adds the current player's symbol to the square 
+            spaces[id] = currentPlayer;  // Fills the square with the current player's symbol
+            e.target.innerText = currentPlayer; // Adds the current player's symbol to the square 
 
             if (playerHasWon() !== false) { // Checks if the current player has won by verifying if the playerHasWon() function does not return false. 
                 playerText.innerText = `${currentPlayer} has won!`; // Displays the winning current player symbol with the text has won!
                 let winning_blocks = playerHasWon(); // Gets the winning squares
-                count_plays = 10 // Prevents further plays if player has won three in the row by making count_plays to 10 plays
+                count_plays = 10; // Prevents further plays if player has won three in the row by making count_plays to 10 plays
                 winning_blocks.forEach(index => squares[index].style.backgroundColor = 'lightgreen'); // Highlights the winning squares with a light green background color
 
                 if (currentPlayer === X_TEXT) {
@@ -58,15 +58,15 @@ document.addEventListener('DOMContentLoaded', () => { // Added an event listener
             } 
             
             else {
-                count_plays++ // Every time a player clicks on a square it increments by 1
-                currentPlayer = currentPlayer == X_TEXT ? O_TEXT : X_TEXT // Switches players turn, if currentPlayer is equal to X_TEXT change it to O_TEXT or else change it to X_TEXT.
+                count_plays++; // Every time a player clicks on a square it increments by 1
+                currentPlayer = currentPlayer == X_TEXT ? O_TEXT : X_TEXT; // Switches players turn, if currentPlayer is equal to X_TEXT change it to O_TEXT or else change it to X_TEXT.
                 playerText.innerText = `It's ${currentPlayer}'s turn`; // Updates whose turn it is
             }
         }
 
 
         if(count_plays === 9) { // Checks if count plays is equal to 9, execute the following code
-            playerText.innerHTML = 'Tied Game!' // Displays the text 'Tied Game'
+            playerText.innerHTML = 'Tied Game!'; // Displays the text 'Tied Game'
         }
     }
 
@@ -97,23 +97,23 @@ document.addEventListener('DOMContentLoaded', () => { // Added an event listener
 
 // ------  Restart Section    ---------------------------------------------------------------------------------------------------
 
-    restartBtn.addEventListener('click', restart) // Added a 'click' event listener to the restart button to reset the game when clicked
+    restartBtn.addEventListener('click', restart); // Added a 'click' event listener to the restart button to reset the game when clicked
 
     function restart() { // Function to reset the game 
-        spaces.fill(null) // Resets the spaces array
+        spaces.fill(null); // Resets the spaces array
 
         squares.forEach( square => { // Iterate over each square in the squares array
-            square.innerText = '' // Resets the squares to empty/null
-            square.style.backgroundColor = '' // Resets the background color to default
-        })
+            square.innerText = ''; // Resets the squares to empty/null
+            square.style.backgroundColor = ''; // Resets the background color to default
+        });
 
 
-        currentPlayer = X_TEXT // Resets the current player to X_TEXT
+        currentPlayer = X_TEXT;// Resets the current player to X_TEXT
         count_plays = 0; // Resets the play count
         playerText.innerText = `It's ${currentPlayer}'s turn`; // Resets the turn message
     }
 
 // ------  Starts Game    ---------------------------------------------------------------------------------------------------
 
-    startGame() // Calls the startGame function to start the game
+    startGame(); // Calls the startGame function to start the game
 });
