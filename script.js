@@ -14,19 +14,44 @@ document.addEventListener('DOMContentLoaded', () => { // Added an event listener
     }
 
     function squareClicked(e) { // Function to handle the click event on game squares
-        const id = e.target.id// Declare a variable named 'id' and assigning it the IDs of the clicked square
+        const id = e.target.id.split('-')[1]; // Declaring a variable named 'id' and assigning it the ID of the clicked square
 
         if(!spaces[id]){ // Checks if the square is null/empty and if it is, execute the following code
             spaces[id] = currentPlayer  // Fills the square with the current player's symbol
             e.target.innerText = currentPlayer // Adds the current player's symbol to the square 
 
+            if (playerHasWon() !== false) { // Checks if the current player has won by verifying if the playerHasWon() function does not return false. 
+                playerText.innerText = `${currentPlayer} has won!`; // Displays the winning current player symbol with the text has won!
+                let winning_blocks = playerHasWon(); // Gets the winning squares
+
+                console.log(winning_blocks); // Console logs the winning squares
+            }
+
             currentPlayer = currentPlayer == X_TEXT ? O_TEXT : X_TEXT // Switches players turn, if currentPlayer is equal to X_TEXT change it to O_TEXT or else change it to X_TEXT.
-            console.log(e.target) // Console logs the clicked square id
         }
     }
 
+    function playerHasWon() { // Function to check if a player has won
+        for (const condition of winningCombinations) { // Iterate through each winning combination
+            let [a, b, c] = condition; // Destructuring the array into three variables
+
+            if (spaces[a] && (spaces[a] == spaces[b] && spaces[a] == spaces[c])) { // Checks if all three squares are filled with the same player's symbol
+                return [a, b, c]; // Returns the winning combination
+            }
+        }
+        return false; // Return false if no winning combination is found
+    }
+
+       const winningCombinations = [ // Array of possible winning combinations
+        [0, 1, 2], // Top row
+        [3, 4, 5], // Middle row
+        [6, 7, 8], // Bottom row
+        [0, 3, 6], // Left column
+        [1, 4, 7], // Middle column
+        [2, 5, 8], // Right column
+        [0, 4, 8], // Diagonal from top-left to bottom-right
+        [2, 4, 6]  // Diagonal from top-right to bottom-left
+    ];
+
     startGame() // Calls the startGame function to start the game
 });
-
-
-
